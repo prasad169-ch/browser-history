@@ -1,0 +1,25 @@
+name: Update README
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight (you can change the time)
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Modify README
+        run: |
+          echo "Updated content at $(date)" >> README.md
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add README.md
+          git commit --amend --no-edit
+          git push --force
